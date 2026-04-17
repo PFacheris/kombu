@@ -1336,8 +1336,18 @@ class Channel(virtual.Channel):
 
     def _create_client(self, asynchronous=False):
         if asynchronous:
-            return self.Client(connection_pool=self.async_pool)
-        return self.Client(connection_pool=self.pool)
+            return self.Client(
+                connection_pool=self.async_pool,
+                credential_provider=self.async_pool.connection_kwargs.get(
+                    'credential_provider',
+                ),
+            )
+        return self.Client(
+            connection_pool=self.pool,
+            credential_provider=self.pool.connection_kwargs.get(
+                'credential_provider',
+            ),
+        )
 
     def _get_pool(self, asynchronous=False):
         params = self._connparams(asynchronous=asynchronous)
