@@ -1105,8 +1105,8 @@ class test_Channel:
         provider = object()
         client_factory = Mock(name='Client')
         self.channel.Client = client_factory
-        self.channel.pool = Mock(connection_kwargs={'credential_provider': provider})
-        self.channel.async_pool = Mock(connection_kwargs={'credential_provider': provider})
+        self.channel._pool = Mock(connection_kwargs={'credential_provider': provider})
+        self.channel._async_pool = Mock(connection_kwargs={'credential_provider': provider})
 
         self.channel._create_client()
         client_factory.assert_called_with(
